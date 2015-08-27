@@ -82,3 +82,8 @@ INSTALL ( TARGETS imathmodule
 	DESTINATION lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages
 )
 
+install(DIRECTORY ${PROJECT_INCLUDE_DIR}/
+    DESTINATION "include/OpenEXR"
+    FILES_MATCHING
+    PATTERN "*.h"
+    )
