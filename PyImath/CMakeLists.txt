@@ -1,3 +1,4 @@
+add_definitions(-DPYIMATH_EXPORTS)
 
 ADD_LIBRARY ( PyImath ${LIB_TYPE}
     PyImath.cpp
@@ -46,15 +47,28 @@ INSTALL ( TARGETS PyImath
 	lib
 )
 
-ADD_LIBRARY ( imathmodule ${LIB_TYPE}
+# set imathmodule to static lib on windows
+set(IMATHMODULE_LIB_TYPE ${LIB_TYPE})
+IF(WIN32)
+    set(IMATHMODULE_LIB_TYPE STATIC)
+ENDIF()
+
+ADD_LIBRARY ( imathmodule ${IMATHMODULE_LIB_TYPE}
     imathmodule.cpp
     PyImathFun.cpp
     PyImathBasicTypes.cpp 
 )
 
-SET_TARGET_PROPERTIES ( imathmodule
-	PROPERTIES PREFIX "" SUFFIX ".so" BUILD_WITH_INSTALL_RPATH ON
-)
+
+IF(WIN32)
+    SET_TARGET_PROPERTIES ( imathmodule
+    PROPERTIES PREFIX "" BUILD_WITH_INSTALL_RPATH ON
+    )
+ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    SET_TARGET_PROPERTIES ( imathmodule
+    PROPERTIES PREFIX "" SUFFIX ".so" BUILD_WITH_INSTALL_RPATH ON
+    )
+ENDIF()
 
 TARGET_LINK_LIBRARIES ( imathmodule
 	PyImath
