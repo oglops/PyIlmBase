@@ -49,9 +49,9 @@ INSTALL ( TARGETS PyImath
 
 # set imathmodule to static lib on windows
 set(IMATHMODULE_LIB_TYPE ${LIB_TYPE})
-IF(WIN32)
-    set(IMATHMODULE_LIB_TYPE STATIC)
-ENDIF()
+#IF(WIN32)
+    #set(IMATHMODULE_LIB_TYPE STATIC)
+#ENDIF()
 
 ADD_LIBRARY ( imathmodule ${IMATHMODULE_LIB_TYPE}
     imathmodule.cpp
