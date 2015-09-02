@@ -1,3 +1,4 @@
+
 add_definitions(-DPYIEX_EXPORTS)
 
 ADD_LIBRARY ( PyIex ${LIB_TYPE}
@@ -17,9 +18,15 @@ ADD_LIBRARY ( iexmodule ${LIB_TYPE}
 	iexmodule.cpp
 )
 
+# try to use static pyiex
+#add_definitions(-DPLATFORM_BUILD_STATIC)
+#set_target_properties(iexmodule PROPERTIES COMPILE_FLAGS -DPLATFORM_BUILD_STATIC)
+
 IF(WIN32)
     SET_TARGET_PROPERTIES ( iexmodule
    	PROPERTIES PREFIX "" BUILD_WITH_INSTALL_RPATH ON
+    OUTPUT_NAME "iex"
+    SUFFIX ".pyd"
     )
 ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     SET_TARGET_PROPERTIES ( iexmodule

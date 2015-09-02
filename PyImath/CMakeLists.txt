@@ -47,22 +47,25 @@ INSTALL ( TARGETS PyImath
 	lib
 )
 
-# set imathmodule to static lib on windows
 set(IMATHMODULE_LIB_TYPE ${LIB_TYPE})
-#IF(WIN32)
-    #set(IMATHMODULE_LIB_TYPE STATIC)
-#ENDIF()
 
-ADD_LIBRARY ( imathmodule ${IMATHMODULE_LIB_TYPE}
+ADD_LIBRARY ( imathmodule  ${IMATHMODULE_LIB_TYPE}
     imathmodule.cpp
     PyImathFun.cpp
     PyImathBasicTypes.cpp 
 )
 
+# try to use static pyimath
+#add_definitions(-DPLATFORM_BUILD_STATIC)
+#set_target_properties(imathmodule PROPERTIES COMPILE_FLAGS -DPLATFORM_BUILD_STATIC)
+#set_target_properties(imathmodule PROPERTIES COMPILE_FLAGS -DPYIEX_EXPORTS)
+#set_target_properties(imathmodule PROPERTIES COMPILE_FLAGS -DPYIMATH_EXPORTS)
 
 IF(WIN32)
     SET_TARGET_PROPERTIES ( imathmodule
     PROPERTIES PREFIX "" BUILD_WITH_INSTALL_RPATH ON
+    OUTPUT_NAME "imath"
+    SUFFIX ".pyd"
     )
 ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     SET_TARGET_PROPERTIES ( imathmodule
